@@ -5,6 +5,8 @@ import router from  './router/index'
 import store from './store'
 import registerApp from './global'
 
+
+
 const app = createApp(App)
 // 按需注册element-plus组件
 registerApp(app)

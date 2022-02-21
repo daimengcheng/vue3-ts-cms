@@ -1,16 +1,34 @@
 {
   "compilerOptions": {
+    // 目标代码
     "target": "esnext",
+    // 辅助的导入功能
+    "importHelpers": true,
     "useDefineForClassFields": true,
+    // 需要使用的模块化方案
     "module": "esnext",
+    // 按照node的方式去解析模块
     "moduleResolution": "node",
+    // 是否开启严格模式
     "strict": true,
+    // 对jsx进行怎样的处理
     "jsx": "preserve",
+    // 跳过一些库的类型监测
+    "skipLibCheck": true,
+    // 是否要生成映射文件
     "sourceMap": true,
+    // 文件路径在解析时,基本url
+    "baseUrl": ".",
     "resolveJsonModule": true,
+    // 是否允许esmodule 和commonjs混合使用
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"]
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["node_modules"]
 }
