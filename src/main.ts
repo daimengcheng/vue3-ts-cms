@@ -5,6 +5,7 @@ import router from  './router/index'
 import store from './store'
 import registerApp from './global'
 
+import "normalize.css"
 
 
 const app = createApp(App)
