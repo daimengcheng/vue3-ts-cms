@@ -2,7 +2,7 @@ const rules = {
   name: [
     { required: true, message: "账号不能为空", trigger: "blur" },
     {
-      pattern: /^[0-9]{5,7}$/,
+      pattern: /^[0-9a-zA-Z]{5,20}$/,
       message: "账号最少位5位,最多位7位,且账号只能位数字",
       trigger: "blur",
     },

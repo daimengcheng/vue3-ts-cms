@@ -20,27 +20,29 @@
 import { reactive, ref, defineComponent } from "vue"
 import { ElForm } from "element-plus"
 import rules from "../config/account-rules"
-import accountCatch from "@/utils/catch"
+import accountCache from "@/utils/cache"
+import { useStore } from "vuex"
 export default defineComponent({
   setup() {
     // 用户输入的账号数据
     const accountForm = reactive({
-      name: accountCatch.getCatch("name") || "",
-      password: accountCatch.getCatch("password") || "",
+      name: accountCache.getCache("name") || "",
+      password: accountCache.getCache("password") || "",
     })
-
+    const store = useStore()
     // 获取表单组件对象
     const formRef = ref<InstanceType<typeof ElForm>>()
 
     const loginAction = (isKeepPassword: boolean) => {
-      formRef.value?.validate(valid => {
+      formRef.value?.validate(async valid => {
         // 判断验证是否成功
         if (valid) {
           // 判断是否需要保存密码
           if (isKeepPassword) {
-            accountCatch.setCatch("name", accountForm.name)
-            accountCatch.setCatch("password", accountForm.password)
+            accountCache.setCache("name", accountForm.name)
+            accountCache.setCache("password", accountForm.password)
           }
+          store.dispatch("loginModule/accountLoginAction", accountForm)
         }
       })
     }

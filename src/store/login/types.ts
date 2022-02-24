@@ -1,5 +1,6 @@
 interface loginState  {
   token:string,
-  user:any
+  userInfo:any,
+  menuList:any
 }
 export default loginState

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import type {AxiosInstance,AxiosResponse} from  'axios'
 import type {ZwRequestConfig,ZwRequestInterceptors} from  './type'
-
+import localCache from "@/utils/cache"
 
 
 // 封装一个类
@@ -34,8 +34,7 @@ export class ZwRequest{
       // 请求拦截成功的回调
       (config)=>{
         // 从store中取出token
-      const token = ""
-
+      const token = localCache.getCache("token")
       if(token){
         config.headers!.Authorization = "Bearer "+token
       }

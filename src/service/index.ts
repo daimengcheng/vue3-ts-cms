@@ -2,20 +2,8 @@ import {ZwRequest} from  './request/index'
 
 // 实例化对象
 const request = new ZwRequest({
-  baseURL:"http://localhost:3001/",
-  timeout:1000,
-  // interceptors:{
-  //   requestInterceptor:(config)=> {
-  //     console.log("请求拦截器");
-  //    return config
-  //   },
-  //   requestInterceptorCatch:(err)=>err,
-  //   responseInterceptor:(res)=>{
-  //     console.log("响应拦截器");
-  //    return res
-  //   },
-  //   responseInterceptorCatch:(err)=>err
-  // }
+  baseURL:"http://152.136.185.210:5000",
+  timeout:20000,
 })
 
 export default request

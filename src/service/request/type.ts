@@ -12,3 +12,8 @@ export interface ZwRequestInterceptors{
 export interface ZwRequestConfig extends AxiosRequestConfig{
   interceptors?:ZwRequestInterceptors
 }
+
+export interface IDataType<T = any> {
+  code:number,
+  data:T
+} 
