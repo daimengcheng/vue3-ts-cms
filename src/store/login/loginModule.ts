@@ -3,6 +3,7 @@ import loginState from './types'
 import rootState from '../types'
 import {reqAccountLogin,reqUserInfoById,reqMenuByUserId} from '@/service/login/login'
 import {AccountLoginType} from '@/service/login/types'
+import {getRoute} from '@/utils/map-route-menu'
 import localCache from '@/utils/cache'
 import router from '@/router/index'
 const loginModule:Module<loginState,rootState> = {
@@ -24,6 +25,10 @@ const loginModule:Module<loginState,rootState> = {
     // 保存角色菜单列表
     saveMenuList(state,menuList){
       state.menuList = menuList
+      const routes = (getRoute(menuList))
+      routes.forEach((route)=>{
+          router.addRoute("main",route)                                                                                           
+      })
     }
   },
   actions:{
@@ -41,7 +46,7 @@ const loginModule:Module<loginState,rootState> = {
       commit("saveMenuList",resMenu.data)
       localCache.setCache("menuList",resMenu.data)
       // 路由跳转
-      router.push("/home")
+      router.push("/main")
     },
     loadLocalState({commit}){
       const token = localCache.getCache("token")

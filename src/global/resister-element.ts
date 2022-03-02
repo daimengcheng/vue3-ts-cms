@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import {Monitor,Fold,Expand,ArrowRight} from  "@element-plus/icons-vue"
 import {
   ElButton,
   ElAlert,
@@ -17,6 +18,15 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElIcon,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElCard,
+  ElCol,
+  ElRow
 } from 'element-plus'
 
 const components:any = [
@@ -37,6 +47,19 @@ const components:any = [
   ElMenuItem,
   ElMenuItemGroup,
   ElIcon,
+  Monitor,
+  Fold,
+  Expand,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ArrowRight,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElCard,
+  ElCol,
+  ElRow
 ]
 
 export function registerElement(app:App){

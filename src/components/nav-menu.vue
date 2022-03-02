@@ -2,7 +2,7 @@
   <div class="menu">
     <div class="logo">
       <img src="~@/assets/img/logo.svg" class="img" alt="" />
-      <span class="title">VUE3+TS</span>
+      <span v-if="!collapse" class="title">VUE3+TS</span>
     </div>
     <el-menu
       default-active="0"
@@ -10,15 +10,18 @@
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
+      :collapse="collapse"
+      router
     >
-      <template v-for="(menu, index1) in menuList" :key="menu.id">
+      <template v-for="menu in menuList" :key="menu.id">
         <el-sub-menu v-if="menu.type === 1" :index="menu.url">
           <template #title>
-            <i :class="menu.icon"></i>
+            <!-- <i :class="menu.icon"></i> -->
+            <el-icon><monitor /></el-icon>
             <span>{{ menu.name }}</span>
           </template>
           <el-menu-item
-            v-for="(child, index2) in menu.children"
+            v-for="child in menu.children"
             :key="child.id"
             :index="child.url"
             class="el-menu-item"
@@ -30,13 +33,25 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { useStore } from "vuex"
-import { computed } from "vue"
-const store = useStore()
+import { computed, defineComponent, watch, PropType } from "vue"
 
-const menuList = computed(() => store.state.loginModule.menuList)
-console.log(menuList.value)
+export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+  },
+  setup(props) {
+    const store = useStore()
+    const menuList = computed(() => store.state.loginModule.menuList)
+    return {
+      menuList,
+    }
+  },
+})
 </script>
 
 <style scoped lang="less">
@@ -68,16 +83,15 @@ console.log(menuList.value)
   .el-menu {
     border-right: none;
     .el-sub-menu {
-      text-align: center;
+      // text-align: center;
       // 二级菜单 ( 默认背景 )
       .el-menu-item {
         padding-left: 50px !important;
         background-color: #0c2135 !important;
-        // background-color: red !important;
       }
       :deep(.el-sub-menu__title) {
         background-color: #001529 !important;
-        padding-left: 40px !important;
+        padding-left: 20px !important;
       }
       .el-menu-item:hover {
         color: #fff !important; // 菜单
@@ -87,6 +101,9 @@ console.log(menuList.value)
         background-color: #0a60bd !important;
       }
     }
+  }
+  .el-icon {
+    // background-color: red !important;
   }
 }
 </style>

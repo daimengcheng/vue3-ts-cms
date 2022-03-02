@@ -1,19 +1,42 @@
 <template>
   <div class="main">
     <el-container class="container">
-      <el-aside width="210px" class="aside">
-        <Menu></Menu>
+      <el-aside :width="isCollapse ? '60px' : '210px'" class="aside">
+        <NavMenu :collapse="isCollapse"></NavMenu>
       </el-aside>
       <el-container class="page">
-        <el-header class="header">Header</el-header>
-        <el-main class="el-main">Main</el-main>
+        <el-header class="header">
+          <NavHeader @fold-menu="handleFold" />
+        </el-header>
+        <el-main class="el-main">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script lang="ts" setup>
-import Menu from "./components/menu.vue"
+<script lang="ts">
+import NavMenu from "@/components/nav-menu.vue"
+import NavHeader from "@/components/nav-header.vue"
+import { ref, defineComponent } from "vue"
+export default defineComponent({
+  components: {
+    NavMenu,
+    NavHeader,
+  },
+  setup() {
+    // 是否水平折叠菜单
+    const isCollapse = ref<boolean>(false)
+    const handleFold = value => {
+      isCollapse.value = value
+    }
+    return {
+      isCollapse,
+      handleFold,
+    }
+  },
+})
 </script>
 
 <style scoped lang="less">
@@ -43,6 +66,8 @@ import Menu from "./components/menu.vue"
     }
     .header {
       background-color: #fff;
+      height: 60px;
+      width: 100%;
     }
     .el-main {
       background-color: #ccc;
