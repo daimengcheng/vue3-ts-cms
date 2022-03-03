@@ -1,5 +1,7 @@
 import {RouteRecordRaw} from 'vue-router'
 
+
+// 动态获取角色权限相关的路由
 export function getRoute(menuList:any):RouteRecordRaw[]{
 
   const routes:RouteRecordRaw[] = []
@@ -27,4 +29,24 @@ export function getRoute(menuList:any):RouteRecordRaw[]{
   }
   _recurseGetRoute(menuList)
   return routes
+}
+
+// 获取一级,二级菜单的name与url 用做于面包屑数据
+export function routeMapBread(menuList:any,currentUrl:string){
+
+  const breadCrumbData:any = []
+
+  for (const menu of menuList) {
+    if(menu.type === 1){
+      const findMenu:any = routeMapBread(menu.children??[],currentUrl)
+      if(findMenu){
+        breadCrumbData.push({"name":menu.name,"path":menu.url})
+        breadCrumbData.push({"name":findMenu.name,"path":findMenu.url})
+
+        return breadCrumbData
+      }
+    }else if(menu.url === currentUrl && menu.type === 2){
+      return menu
+    }
+  }
 }

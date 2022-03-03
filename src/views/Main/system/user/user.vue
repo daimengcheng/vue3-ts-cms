@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import CzFromSearch from "@/base-ui/form/Cz-form-search.vue"
+import CzFromSearch from "@/base-ui/form/Cz-form.vue"
 import { ref } from "vue"
 
 const formItems = [

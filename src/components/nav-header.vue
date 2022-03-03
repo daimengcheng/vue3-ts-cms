@@ -3,11 +3,9 @@
     <el-icon @click="handleFoldMenu" v-if="!isFold"><fold /></el-icon>
     <el-icon v-else @click="handleFoldMenu"><expand /></el-icon>
     <div class="title">
+      <!-- 面包屑导航 -->
       <div class="bread">
-        <el-breadcrumb :separator-icon="ArrowRight">
-          <el-breadcrumb-item :to="{ path: '/' }">系统总览</el-breadcrumb-item>
-          <el-breadcrumb-item>核心技术</el-breadcrumb-item>
-        </el-breadcrumb>
+        <CzBreadCrumb :breadcrumbData="breadcrumbData" />
       </div>
       <div class="user-info">
         <div class="avatar">
@@ -33,22 +31,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
-import { ArrowRight } from "@element-plus/icons-vue"
+import { computed, defineComponent, ref, watch } from "vue"
+import { useRouter, useRoute } from "vue-router"
+import { useStore } from "vuex"
+import CzBreadCrumb from "@/base-ui/breadcrumb/Cz-breadcrumb.vue"
+import { routeMapBread } from "@/utils/map-route-menu"
 export default defineComponent({
+  components: {
+    CzBreadCrumb,
+  },
   emits: { "fold-menu": null },
   setup(props, { emit }) {
     //  是否要折叠
     const isFold = ref<boolean>(false)
-
     const handleFoldMenu = () => {
       isFold.value = !isFold.value
       emit("fold-menu", isFold.value)
     }
+    const route = useRoute()
+    const breadcrumbData = computed(() => {
+      const store = useStore()
+      const menuList = store.state.loginModule.menuList
+      return routeMapBread(menuList, route.path)
+    })
     return {
       handleFoldMenu,
       isFold,
-      ArrowRight,
+      breadcrumbData,
     }
   },
 })

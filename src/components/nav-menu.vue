@@ -5,12 +5,12 @@
       <span v-if="!collapse" class="title">VUE3+TS</span>
     </div>
     <el-menu
-      default-active="0"
       unique-opened
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
       :collapse="collapse"
+      :default-active="activeMenu"
       router
     >
       <template v-for="menu in menuList" :key="menu.id">
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { useStore } from "vuex"
 import { computed, defineComponent, watch, PropType } from "vue"
-
+import localCache from "@/utils/cache"
 export default defineComponent({
   props: {
     collapse: {
@@ -47,8 +47,10 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     const menuList = computed(() => store.state.loginModule.menuList)
+    const activeMenu = localCache.getCache("activeMenu")
     return {
       menuList,
+      activeMenu,
     }
   },
 })

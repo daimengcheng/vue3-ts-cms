@@ -11,7 +11,8 @@ const loginModule:Module<loginState,rootState> = {
   state:{
     token:"",
     userInfo:{},
-    menuList:[]
+    menuList:[],
+    activeMenu:""
   },
   mutations:{
     // 保存token以及id
@@ -29,6 +30,9 @@ const loginModule:Module<loginState,rootState> = {
       routes.forEach((route)=>{
           router.addRoute("main",route)                                                                                           
       })
+    },
+    saveActiveMenu(state,activeMenu){
+      state.activeMenu = activeMenu
     }
   },
   actions:{

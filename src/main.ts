@@ -14,5 +14,4 @@ setupState()
 app.use(router) // 流程: 执行install函数,获取当前路由的路径,去进行匹配
 app.use(store) 
 
-
 app.mount('#app')

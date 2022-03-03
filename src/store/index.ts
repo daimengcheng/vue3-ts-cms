@@ -6,9 +6,13 @@ const store = createStore({
   }
 })
 
+function setupActiveMenu(activeMenu:string):void{
+
+}
 
 export function setupState(){
   store.dispatch("loginModule/loadLocalState")
+  // setupActiveMenu(activeMenu)
 }
 
 export default store
