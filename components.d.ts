@@ -35,12 +35,17 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubmenu: typeof import('element-plus/es')['ElSubmenu']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Menu: typeof import('./src/components/menu.vue')['default']
     NavHeader: typeof import('./src/components/nav-header.vue')['default']
     NavMenu: typeof import('./src/components/nav-menu.vue')['default']
+    Search: typeof import('./src/components/search.vue')['default']
+    UserTable: typeof import('./src/components/user-table.vue')['default']
   }
 }
 

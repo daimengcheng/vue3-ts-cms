@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import {Monitor,Fold,Expand,ArrowRight} from  "@element-plus/icons-vue"
+import {Monitor,Fold,Expand,ArrowRight, Search} from  "@element-plus/icons-vue"
 import {
   ElButton,
   ElAlert,
@@ -26,7 +26,9 @@ import {
   ElBreadcrumbItem,
   ElCard,
   ElCol,
-  ElRow
+  ElRow,
+  ElTable,
+  ElTableColumn
 } from 'element-plus'
 
 const components:any = [
@@ -59,7 +61,10 @@ const components:any = [
   ElBreadcrumbItem,
   ElCard,
   ElCol,
-  ElRow
+  ElRow,
+  Search,
+  ElTable,
+  ElTableColumn
 ]
 
 export function registerElement(app:App){

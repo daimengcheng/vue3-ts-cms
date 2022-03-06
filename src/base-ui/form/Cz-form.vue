@@ -1,94 +1,107 @@
 <template>
   <div class="cz-form-search">
+    <div class="header">
+      <slot name="title"></slot>
+    </div>
     <el-form :label-width="labelWidth" label-position="left">
       <el-row>
-        <template v-for="item in formItems" :key="item.label">
-          <template v-if="item.type === 'input'">
-            <el-col :span="8" xs="4">
-              <el-form-item label="账号" style="width: 400px">
-                <el-input></el-input>
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else-if="item.type === 'password'">
-            <el-col :span="8">
-              <el-form-item label="密码">
-                <el-input show-password></el-input>
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else-if="item.type === 'select'">
-            <el-col :span="8">
-              <el-form-item label="选择喜欢的运动" style="width: 400px">
-                <el-select
-                  v-model="selectValue"
-                  class="m-2"
-                  placeholder="Select"
-                  size="large"
-                  style="width: 330px"
-                >
-                  <el-option
-                    v-for="option in item.selectOptions"
-                    :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else>
-            <el-col :span="8">
-              <el-form-item label="选择日期">
-                <el-date-picker
-                  v-model="dataValue"
-                  type="daterange"
-                  range-separator="To"
-                  start-placeholder="Start date"
-                  end-placeholder="End date"
-                  style="width: 100%"
-                >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </template>
-        </template>
+        <el-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
+          <el-form-item v-if="item.type === 'input'" label="账号">
+            <el-input v-model="formData[item.field]"></el-input>
+          </el-form-item>
+          <el-form-item v-else-if="item.type === 'password'" label="密码">
+            <el-input show-password v-model="formData[item.field]"></el-input>
+          </el-form-item>
+          <el-form-item
+            v-else-if="item.type === 'select'"
+            label="选择喜欢的运动"
+          >
+            <el-select
+              v-model="formData[item.field]"
+              class="m-2"
+              placeholder="Select"
+              size="large"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="option in item.selectOptions"
+                :key="option.value"
+                :label="option.label"
+                :value="option.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item v-else label="选择日期">
+            <el-date-picker
+              v-model="formData[item.field]"
+              type="daterange"
+              range-separator="To"
+              start-placeholder="Start date"
+              end-placeholder="End date"
+              style="width: 100%"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="btns"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineProps, PropType, defineComponent, ref } from "vue"
-import { IForm, FormItemOptions } from "@/base-ui/form/types"
+import { PropType, defineComponent, ref, watch } from "vue"
+import { FormItemOptions } from "@/base-ui/form/types"
 export default defineComponent({
   props: {
-    formItems: {
-      type: Array as PropType<FormItemOptions[]>,
-      default: () => [],
-    },
     labelWidth: {
       type: String,
       default: "120px",
     },
+    formItems: {
+      type: Array as PropType<FormItemOptions[]>,
+      default: () => [],
+    },
+    colLayout: {
+      type: Object,
+      default: {
+        xl: 6,
+        lg: 8,
+        md: 12,
+        sm: 24,
+        xs: 24,
+      },
+    },
+    modelValue: {
+      type: Object,
+      default: () => ({}),
+    },
   },
-  setup(props) {
-    const selectValue = ref("")
-    const dataValue = ref("")
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue })
+    watch(
+      formData,
+      newVal => {
+        emit("update:modelValue", newVal)
+      },
+      { deep: true }
+    )
     return {
-      selectValue,
-      dataValue,
+      formData,
     }
   },
 })
 </script>
 
 <style scoped lang="less">
-.el-col {
-  margin-right: 5px;
-  :deep(.el-form-item__content) {
-    // width: 200px !important;
+.el-row {
+  // padding: 10px;
+  .el-col {
+    padding: 10px 30px;
   }
 }
 </style>

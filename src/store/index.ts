@@ -1,14 +1,12 @@
 import {createStore} from  'vuex'
 import loginModule from './login/loginModule'
+import systemModule from './main/system/systemModule'
 const store = createStore({
   modules:{
-    loginModule
+    loginModule,
+    systemModule
   }
 })
-
-function setupActiveMenu(activeMenu:string):void{
-
-}
 
 export function setupState(){
   store.dispatch("loginModule/loadLocalState")
