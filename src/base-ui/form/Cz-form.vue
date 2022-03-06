@@ -1,8 +1,5 @@
 <template>
   <div class="cz-form-search">
-    <div class="header">
-      <slot name="title"></slot>
-    </div>
     <el-form :label-width="labelWidth" label-position="left">
       <el-row>
         <el-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
@@ -98,6 +95,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.header {
+  height: 100px;
+}
 .el-row {
   // padding: 10px;
   .el-col {

@@ -1,36 +1,29 @@
 <template>
   <div class="user">
     <el-card>
-      <Search />
-      <UserTable />
+      <UserSearch :search-form-config="searchFormConfig" />
+      <UserTable :table-Config="userTableConfig" page-name="users" />
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import Search from "@/components/search.vue"
-import UserTable from "@/components/user-table.vue"
-import { useStore } from "vuex"
-import { defineComponent } from "vue"
+import UserSearch from "@/components/page-search.vue"
+import UserTable from "@/components/page-table.vue"
+import { searchFormConfig } from "./search-config"
+import { userTableConfig } from "./table-config"
+import { defineComponent, ref } from "vue"
 export default defineComponent({
   components: {
-    Search,
+    UserSearch,
     UserTable,
   },
   setup() {
-    const store = useStore()
-    store.dispatch("systemModule/getUserListAction", {
-      url: "/users/list",
-      queryInfo: { offset: 0, size: 10 },
-    })
-    return {}
+    return {
+      searchFormConfig,
+      userTableConfig,
+    }
   },
 })
 </script>
-<style scoped lang="less">
-.el-card {
-  .user-table {
-    margin: 40px 0;
-  }
-}
-</style>
+<style scoped lang="less"></style>

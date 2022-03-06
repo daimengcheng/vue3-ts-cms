@@ -1,6 +1,8 @@
 interface IUserState{
   userList:any,
-  userCount:number
+  userCount:number,
+  roleCount:number,
+  roleList:any
 }
 
 export {IUserState}

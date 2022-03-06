@@ -1,31 +1,50 @@
 <template>
   <div class="cz-table">
+    <div class="header">
+      <slot name="header">
+        <div class="title">{{ title }}</div>
+        <div class="handler">
+          <slot name="headerHandler"></slot>
+        </div>
+      </slot>
+    </div>
     <el-table :data="tableData" border style="width: 100%">
-      <!-- 选择框 -->
+      <!-- 选择框 栏-->
       <el-table-column
         v-if="showColumnIndex"
         type="selection"
       ></el-table-column>
+      <!-- index栏 -->
+      <el-table-column
+        v-if="showColumnSelect"
+        type="index"
+        align="center"
+      ></el-table-column>
       <template v-for="item in propsItem" :key="item.prop">
-        <el-table-column :prop="item.prop" :label="item.label" align="center">
-          <template v-if="item.prop === 'enable'" #default="scope">
-            <slot name="status" :row="scope.row"></slot>
-          </template>
-          <template v-else-if="item.prop === 'createAt'" #default="scope">
-            <slot :name="item.prop" :row="scope.row"></slot>
-          </template>
-          <template v-else-if="item.prop === 'updateAt'" #default="scope">
-            <slot :name="item.prop" :row="scope.row"></slot>
+        <el-table-column v-bind="item" align="center">
+          <template #default="scope">
+            <slot :name="item.slotName" :row="scope.row">{{
+              scope.row[item.prop]
+            }}</slot>
           </template>
         </el-table-column>
       </template>
-      <!-- 按钮区 -->
-      <el-table-column v-if="showColumnBtn" label="操作" align="center">
-        <template #default="scope">
-          <slot name="btn" :row="scope.row"></slot>
-        </template>
-      </el-table-column>
     </el-table>
+    <div class="footer">
+      <el-pagination
+        v-model:currentPage="currentPage4"
+        v-model:page-size="pageSize4"
+        :page-sizes="[100, 200, 300, 400]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="400"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -46,9 +65,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    showColumnBtn: {
+    showColumnSelect: {
       type: Boolean,
       default: false,
+    },
+    totalCount: {
+      type: Number,
+      default: 0,
+    },
+    title: {
+      type: String,
+      default: "",
     },
   },
   setup() {
@@ -57,4 +84,12 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  font-size: 22px;
+}
+</style>

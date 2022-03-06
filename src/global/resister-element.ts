@@ -28,7 +28,8 @@ import {
   ElCol,
   ElRow,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElConfigProvider
 } from 'element-plus'
 
 const components:any = [
@@ -64,7 +65,8 @@ const components:any = [
   ElRow,
   Search,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElConfigProvider
 ]
 
 export function registerElement(app:App){

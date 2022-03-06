@@ -22,12 +22,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, PropType } from "vue"
 import CzFromSearch from "@/base-ui/form/Cz-form.vue"
 import { searchFormConfig } from "@/views/Main/system/user/search-config"
+import { IForm } from "@/base-ui/form/types"
 export default defineComponent({
   components: {
     CzFromSearch,
+  },
+  props: {
+    searchFormConfig: {
+      type: Object as PropType<IForm>,
+      default: () => ({}),
+    },
   },
   setup() {
     const formData = ref({
@@ -38,7 +45,6 @@ export default defineComponent({
     })
     return {
       CzFromSearch,
-      searchFormConfig,
       formData,
     }
   },

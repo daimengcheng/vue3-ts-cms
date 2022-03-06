@@ -1,12 +1,14 @@
 interface IPropsItem{
-  prop:string,
+  prop?:string,
   label:string
+  slotName?:string
 }
 
-interface IUserTableConfig {
+interface ITableConfig {
   showColumnIndex:boolean,
-  showColumnBtn:boolean,
+  showColumnSelect:boolean,
   propsItem:IPropsItem[],
+  title:string
 }
 
-export {IUserTableConfig,IPropsItem}
+export {ITableConfig,IPropsItem}

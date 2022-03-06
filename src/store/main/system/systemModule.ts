@@ -8,7 +8,9 @@ const systemModule:Module<IUserState,rootState> = {
   state(){
     return{
       userCount:0,
-      userList:[]
+      userList:[],
+      roleCount:0,
+      roleList:[]
     }
   },
   mutations:{
@@ -19,14 +21,35 @@ const systemModule:Module<IUserState,rootState> = {
     // 保存用户总数
     saveUserCount(state,userCount){
       state.userCount = userCount
+    },
+    // 保存角色 列表
+    saveRoleList(state,roleList){
+      state.roleList = roleList
+    },
+    // 保存角色总数
+    saveRoleCount(state,roleCount){
+      state.roleCount = roleCount
     }
   },
   actions:{
     // 获取用户列表
-    async getUserListAction({commit},payload){
-      const res:IResult = await getUserList(payload.url,payload.queryInfo)
-       commit("saveUserList",res.data.list)
-       commit("saveUserCount",res.data.totalCount)
+    async getListAction({commit},payload){
+      const {queryInfo,pageName} = payload
+      const pageUrl = `${pageName}/list`
+      const res:IResult = await getUserList(pageUrl,queryInfo)
+      switch(pageName){
+        case "users":
+          if(res.code === 0){
+            commit("saveUserList",res.data.list)
+            commit("saveUserCount",res.data.totalCount)
+          }
+          break;
+        case "role":
+          if(res.code === 0){
+            commit("saveRoleList",res.data.list)
+            commit("saveRoleCount",res.data.totalCount)
+          }
+      }
     }
   }
 }
