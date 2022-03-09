@@ -6,35 +6,24 @@ const searchFormConfig:IForm = {
   labelWidth:"120px",
   formItems:[
     { label: "账号", type: "input",field:"name" },
-    { label: "密码", type: "password",field:"password" },
+    { label:"请输入真实姓名", type:"input", field:"realname"},
     {
-      label: "请选择喜欢的运动",
+      label: "状态",
       type: "select",
       field:"selectValue",
       selectOptions: [
         {
-          value: "Option1",
-          label: "Option1",
+          label: "启用",
+          value: 1,
         },
         {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
+          value: 0,
+          label: "禁用",
+        }
       ],
     },
-    { label: "请选择日期范围", type: "datePicker",field:"createTime" },
+    { label: "创建时间", type: "datePicker",field:"createTime" },
+    {label:"电话号码", type:"input", field:"phoneNumber"}
   ],
   colLayout:{span:8}
 }

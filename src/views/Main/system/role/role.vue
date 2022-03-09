@@ -1,6 +1,7 @@
 <template>
   <div class="role">
     <el-card>
+      <RoleSearch :search-form-config="roleSearchConfig" />
       <RoleTable :tableConfig="roleTableConfig" page-name="role" />
     </el-card>
   </div>
@@ -8,12 +9,15 @@
 
 <script lang="ts">
 import RoleTable from "@/components/page-table.vue"
-import { roleTableConfig } from "@/views/Main/system/role/table-config"
+import RoleSearch from "@/components/page-search.vue"
+import { roleTableConfig } from "./table-config"
+import { roleSearchConfig } from "./search-config"
 import { ref, defineComponent } from "vue"
 import { useStore } from "vuex"
 export default defineComponent({
   components: {
     RoleTable,
+    RoleSearch,
   },
   setup() {
     const store = useStore()
@@ -24,6 +28,7 @@ export default defineComponent({
     })
     return {
       roleTableConfig,
+      roleSearchConfig,
     }
   },
 })

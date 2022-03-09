@@ -32,16 +32,13 @@
     </el-table>
     <div class="footer">
       <el-pagination
-        v-model:currentPage="currentPage4"
-        v-model:page-size="pageSize4"
-        :page-sizes="[100, 200, 300, 400]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
+        :current-page="pageInfo.currentPage"
+        :page-sizes="[1, 2, 3, 4]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="totalCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
+        :default-page-size="pageInfo.pageSize"
       >
       </el-pagination>
     </div>
@@ -77,9 +74,25 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    pageInfo: {
+      type: Object,
+      default: () => ({}),
+    },
   },
-  setup() {
-    return {}
+  emits: ["updatePageSize", "updatePageNum"],
+  setup(props, { emit }) {
+    // 当每页显式条目数发生改变时
+    const handleSizeChange = (newPageSize: number) => {
+      emit("updatePageSize", newPageSize)
+    }
+    // 切换页数时的回调
+    const handleCurrentChange = (newPageNum: number) => {
+      emit("updatePageNum", newPageNum)
+    }
+    return {
+      handleSizeChange,
+      handleCurrentChange,
+    }
   },
 })
 </script>
@@ -91,5 +104,10 @@ export default defineComponent({
   align-items: center;
   height: 60px;
   font-size: 22px;
+}
+.footer {
+  display: flex;
+  height: 100px;
+  justify-content: center;
 }
 </style>

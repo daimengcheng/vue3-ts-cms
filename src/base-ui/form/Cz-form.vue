@@ -3,16 +3,16 @@
     <el-form :label-width="labelWidth" label-position="left">
       <el-row>
         <el-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
-          <el-form-item v-if="item.type === 'input'" label="账号">
+          <el-form-item v-if="item.type === 'input'" :label="item.label">
             <el-input v-model="formData[item.field]"></el-input>
           </el-form-item>
-          <el-form-item v-else-if="item.type === 'password'" label="密码">
+          <el-form-item
+            v-else-if="item.type === 'password'"
+            :label="item.label"
+          >
             <el-input show-password v-model="formData[item.field]"></el-input>
           </el-form-item>
-          <el-form-item
-            v-else-if="item.type === 'select'"
-            label="选择喜欢的运动"
-          >
+          <el-form-item v-else-if="item.type === 'select'" :label="item.label">
             <el-select
               v-model="formData[item.field]"
               class="m-2"
@@ -22,14 +22,14 @@
             >
               <el-option
                 v-for="option in item.selectOptions"
-                :key="option.value"
+                :key="option.label"
                 :label="option.label"
                 :value="option.value"
               >
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-else label="选择日期">
+          <el-form-item v-else :label="item.label">
             <el-date-picker
               v-model="formData[item.field]"
               type="daterange"
