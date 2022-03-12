@@ -1,18 +1,20 @@
 import { Module } from "vuex";
-import loginState from './types'
+import ILoginState from './types'
 import rootState from '../types'
 import {reqAccountLogin,reqUserInfoById,reqMenuByUserId} from '@/service/login/login'
 import {AccountLoginType} from '@/service/login/types'
 import {getRoute} from '@/utils/map-route-menu'
+import {mapMenuPermission} from '@/utils/mapMenuPermission'
 import localCache from '@/utils/cache'
 import router from '@/router/index'
-const loginModule:Module<loginState,rootState> = {
+const loginModule:Module<ILoginState,rootState> = {
   namespaced:true,
   state:{
     token:"",
     userInfo:{},
     menuList:[],
-    activeMenu:""
+    activeMenu:"",
+    menuPermissions:[]
   },
   mutations:{
     // 保存token以及id
@@ -30,7 +32,10 @@ const loginModule:Module<loginState,rootState> = {
       routes.forEach((route)=>{
           router.addRoute("main",route)                                                                                           
       })
+      state.menuPermissions = mapMenuPermission(menuList);
     },
+
+    // 保存当前激活的菜单
     saveActiveMenu(state,activeMenu){
       state.activeMenu = activeMenu
     }

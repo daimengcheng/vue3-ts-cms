@@ -15,7 +15,7 @@ export function getRoute(menuList:any):RouteRecordRaw[]{
   })
 
   // 2. 菜单的映射
-  const _recurseGetRoute = (menus:any[])=>{
+  const _recurseGetRoute = (menus:any=[])=>{
     for(const menu of menus){
       if(menu.type === 2){
         const route = allRoutes.find((item)=>item.path === menu.url)

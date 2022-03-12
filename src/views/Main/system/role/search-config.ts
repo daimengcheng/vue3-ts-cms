@@ -4,7 +4,7 @@ const roleSearchConfig:IForm = {
   formItems:[
     {
       field:"name",
-      label:"姓名",
+      label:"角色名称",
       type:"input",
     },
     {
@@ -13,8 +13,8 @@ const roleSearchConfig:IForm = {
       type:"input"
     },
     {
-      field:"createTime",
-      label:"请选择日期范围",
+      field:"createAt",
+      label:"创建日期",
       type:"datePicker",
     }, 
   ],

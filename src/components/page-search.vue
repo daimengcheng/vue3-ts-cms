@@ -10,7 +10,7 @@
         <template #btns>
           <div class="btns">
             <ElButton @click="handleReset">重置</ElButton>
-            <ElButton type="primary">
+            <ElButton type="primary" @click="handleSearch">
               <el-icon style="margin-right: 5px"><search /></el-icon>
               搜索
             </ElButton>
@@ -25,6 +25,7 @@
 import { defineComponent, ref, PropType, computed } from "vue"
 import CzFromSearch from "@/base-ui/form/Cz-form.vue"
 import { IFormData, IForm } from "@/base-ui/form/types"
+import { useRolePermission } from "@/hooks/useRolePermission"
 export default defineComponent({
   components: {
     CzFromSearch,
@@ -35,7 +36,8 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  setup(props) {
+  emits: ["resetChange", "searchChange"],
+  setup(props, { emit }) {
     let originFormData: IFormData = {}
 
     const formItems = props.searchFormConfig.formItems ?? []
@@ -51,11 +53,18 @@ export default defineComponent({
       for (const item of formItems) {
         formData.value[item.field] = originFormData[item.field]
       }
+      emit("resetChange")
+    }
+
+    // 搜索按钮实现
+    const handleSearch = () => {
+      emit("searchChange", formData.value)
     }
 
     return {
       CzFromSearch,
       handleReset,
+      handleSearch,
       formData,
     }
   },

@@ -9,7 +9,7 @@ const roleTableConfig:ITableConfig = {
     { prop: 'intro', label: '角色权限',},
     { prop: 'createAt', label: '创建时间',slotName:"createAt"},
     { prop: 'updateAt', label: '更新时间',slotName:"updateAt"},
-    { label: '操作',slotName:"option" }
+    { prop:"option",label: '操作',slotName:"option" }
   ]
 }
 

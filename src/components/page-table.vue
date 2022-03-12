@@ -1,7 +1,7 @@
 <template>
   <div class="user-table">
     <CzTable
-      :tableData="ListData"
+      :tableData="listData"
       v-bind="tableConfig"
       :totalCount="totalCount"
       @updatePageNum="handlePageNumChange"
@@ -9,12 +9,13 @@
       :pageInfo="pageInfo"
     >
       <template #headerHandler>
-        <el-button type="primary">添加用户</el-button>
+        <el-button type="primary" v-if="isCreated">添加用户</el-button>
       </template>
-      <template #status="scope">
-        <el-button :type="scope.row.enable ? 'success' : 'danger'">{{
-          formatStatus(scope.row.enable)
-        }}</el-button>
+      <template #enable="scope">
+        <el-button
+          :type="scope.row.enable || scope.row.status ? 'success' : 'danger'"
+          >{{ formatStatus(scope.row.enable) }}</el-button
+        >
       </template>
       <template #createAt="scope">
         <span>{{ formatTime(scope.row.createAt) }}</span>
@@ -24,9 +25,16 @@
       </template>
       <template #option="scope">
         <div class="btns">
-          <el-button type="primary">编辑</el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button type="primary" v-if="isUpdated">编辑</el-button>
+          <el-button type="danger" v-if="isDeleted">删除</el-button>
         </div>
+      </template>
+      <template
+        v-for="prop in otherPropItem"
+        :key="prop.slotName"
+        #[prop.prop!]="scope"
+      >
+        <slot :name="prop.prop" :row="scope.row"></slot>
       </template>
     </CzTable>
   </div>
@@ -36,6 +44,7 @@
 import CzTable from "@/base-ui/table/Cz-table.vue"
 import { formatTime, formatStatus } from "@/utils/filters"
 import { ITableConfig } from "@/base-ui/table/type"
+import { useRolePermission } from "@/hooks/useRolePermission"
 import { defineComponent, computed, PropType, ref, watch } from "vue"
 import { useStore } from "vuex"
 export default defineComponent({
@@ -54,7 +63,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    let ListData = ref<any>()
+    let listData = ref<any>()
     let totalCount = ref<any>(0)
 
     // 设置pageInfo
@@ -63,31 +72,56 @@ export default defineComponent({
       currentPage: 1,
     })
 
+    // 权限判断
+    const isCreated = useRolePermission(props.pageName, "create")
+    const isDeleted = useRolePermission(props.pageName, "delete")
+    const isUpdated = useRolePermission(props.pageName, "update")
+    const isQuery = useRolePermission(props.pageName, "query")
+
     // 监听pageInfo,当pageInfo发生改变时,重新发起请求
     watch(pageInfo, () => getDataList(), { deep: true })
     // 发起获取列表的请求
-    const getDataList = () => {
+    const getDataList = (otherQuery: any = {}) => {
+      // 如果isQuery为否,说明该角色没有查询的权限
+      if (!isQuery) return
       store.dispatch("systemModule/getListAction", {
         pageName: props.pageName,
         queryInfo: {
           offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
+          ...otherQuery,
         },
       })
     }
     getDataList()
-
     // 通过pageName获取获取数据
     switch (props.pageName) {
       case "users":
-        ListData = computed(() => store.state.systemModule.userList)
+        listData = computed(() => store.state.systemModule.userList)
         totalCount = computed(() => store.state.systemModule.userCount)
         break
       case "role":
-        ListData = computed(() => store.state.systemModule.roleList)
+        listData = computed(() => store.state.systemModule.roleList)
         totalCount = computed(() => store.state.systemModule.roleCount)
         break
+      case "goods":
+        listData = computed(() => store.state.systemModule.goodsList)
+        totalCount = computed(() => store.state.systemModule.goodsCount)
+        break
+      case "menu":
+        listData = computed(() => store.state.systemModule.menuList)
+        totalCount = computed(() => store.state.systemModule.menuCount)
     }
+    //  filter 创建一个新的数组, 其包含通过所提供函数实现的测试的所有元素
+    const otherPropItem = props.tableConfig.propsItem.filter(item => {
+      if (item.slotName) {
+        if (item.slotName === "createAt") return false
+        else if (item.slotName === "updateAt") return false
+        else if (item.slotName === "option") return false
+        else if (item.slotName === "status") return false
+        return true
+      }
+    })
 
     // 当页码改变时
     const handlePageNumChange = (newPageNum: number) => {
@@ -100,13 +134,18 @@ export default defineComponent({
     }
 
     return {
-      ListData,
+      listData,
       totalCount,
       formatTime,
       formatStatus,
       handlePageNumChange,
       handlePageSizeChange,
       pageInfo,
+      getDataList,
+      otherPropItem,
+      isCreated,
+      isDeleted,
+      isUpdated,
     }
   },
 })

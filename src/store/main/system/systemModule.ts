@@ -3,6 +3,7 @@ import rootState from "../../types"
 import {IUserState} from './type'
 import {getUserList} from '@/service/main/system/system'
 import {IResult} from '@/service/type'
+import {firstToUpper} from '@/utils/firstToUpper'
 const systemModule:Module<IUserState,rootState> = {
   namespaced:true,
   state(){
@@ -10,16 +11,20 @@ const systemModule:Module<IUserState,rootState> = {
       userCount:0,
       userList:[],
       roleCount:0,
-      roleList:[]
+      roleList:[],
+      goodsCount:0,
+      goodsList:[],
+      menuCount:0,
+      menuList:[]
     }
   },
   mutations:{
     // 保存用户 列表
-    saveUserList(state,userList){
+    saveUsersList(state,userList){
       state.userList = userList
     },
     // 保存用户总数
-    saveUserCount(state,userCount){
+    saveUsersCount(state,userCount){
       state.userCount = userCount
     },
     // 保存角色 列表
@@ -29,27 +34,39 @@ const systemModule:Module<IUserState,rootState> = {
     // 保存角色总数
     saveRoleCount(state,roleCount){
       state.roleCount = roleCount
+    },
+    // 保存商品 列表
+    saveGoodsList(state,goodsList){
+      state.goodsList = goodsList
+    },
+    // 保存角色总数
+    saveGoodsCount(state,goodsCount){
+      state.goodsCount = goodsCount
+    },
+    // 保存菜单 列表
+    saveMenuList(state,menuList){
+      state.menuList = menuList
+    },
+    // 保存角色总数
+    saveMenuCount(state,menuCount){
+      console.log(menuCount);
+      state.menuCount = menuCount
     }
   },
+
   actions:{
-    // 获取用户列表
+    // 获取数据列表
     async getListAction({commit},payload){
       const {queryInfo,pageName} = payload
+      // 拼接新的url
       const pageUrl = `${pageName}/list`
       const res:IResult = await getUserList(pageUrl,queryInfo)
-      switch(pageName){
-        case "users":
-          if(res.code === 0){
-            commit("saveUserList",res.data.list)
-            commit("saveUserCount",res.data.totalCount)
-          }
-          break;
-        case "role":
-          if(res.code === 0){
-            commit("saveRoleList",res.data.list)
-            commit("saveRoleCount",res.data.totalCount)
-          }
+      // 首字母大写
+      const newPageName = firstToUpper(pageName)
+      if(res.data.totalCount){
+        commit(`save${newPageName}Count`,res.data.totalCount)
       }
+      commit(`save${newPageName}List`,res.data.list)
     }
   }
 }

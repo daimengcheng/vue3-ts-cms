@@ -8,7 +8,13 @@
         </div>
       </slot>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table
+      :data="tableData"
+      border
+      style="width: 100%"
+      :row-key="childrenProps.rowKey"
+      :tree-props="childrenProps.treeProp"
+    >
       <!-- 选择框 栏-->
       <el-table-column
         v-if="showColumnIndex"
@@ -21,19 +27,19 @@
         align="center"
       ></el-table-column>
       <template v-for="item in propsItem" :key="item.prop">
-        <el-table-column v-bind="item" align="center">
+        <el-table-column v-bind="item" align="center" show-overflow-tooltip>
           <template #default="scope">
-            <slot :name="item.slotName" :row="scope.row">{{
+            <slot :name="item.prop" :row="scope.row">{{
               scope.row[item.prop]
             }}</slot>
           </template>
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="!hidePagination">
       <el-pagination
         :current-page="pageInfo.currentPage"
-        :page-sizes="[1, 2, 3, 4]"
+        :page-sizes="[1, 2, 3, 10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalCount"
         @size-change="handleSizeChange"
@@ -78,11 +84,20 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    childrenProps: {
+      type: null,
+      default: () => ({}),
+    },
+    hidePagination: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["updatePageSize", "updatePageNum"],
   setup(props, { emit }) {
     // 当每页显式条目数发生改变时
     const handleSizeChange = (newPageSize: number) => {
+      console.log(props.totalCount)
       emit("updatePageSize", newPageSize)
     }
     // 切换页数时的回调

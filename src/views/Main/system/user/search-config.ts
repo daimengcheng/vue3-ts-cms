@@ -5,12 +5,13 @@ import {IForm} from '@/base-ui/form/types'
 const searchFormConfig:IForm = {
   labelWidth:"120px",
   formItems:[
-    { label: "账号", type: "input",field:"name" },
-    { label:"请输入真实姓名", type:"input", field:"realname"},
+    { label: "用户名", type: "input",field:"name" },
+    { label:"真实姓名", type:"input", field:"realname"},
+    {label:"电话号码", type:"input", field:"cellphone"},
     {
       label: "状态",
       type: "select",
-      field:"selectValue",
+      field:"enable",
       selectOptions: [
         {
           label: "启用",
@@ -22,8 +23,7 @@ const searchFormConfig:IForm = {
         }
       ],
     },
-    { label: "创建时间", type: "datePicker",field:"createTime" },
-    {label:"电话号码", type:"input", field:"phoneNumber"}
+    { label: "创建时间", type: "datePicker",field:"createAt" },
   ],
   colLayout:{span:8}
 }

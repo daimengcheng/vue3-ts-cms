@@ -8,7 +8,9 @@ interface ITableConfig {
   showColumnIndex:boolean,
   showColumnSelect:boolean,
   propsItem:IPropsItem[],
-  title:string
+  title:string,
+  childrenProps?:{},
+  hidePagination:boolean
 }
 
 export {ITableConfig,IPropsItem}
