@@ -4,3 +4,8 @@ import {IResult} from "../../type"
 export const getUserList = (url:string,queryInfo:any)=>{
   return request.post<IResult>({url,data:queryInfo})
 }
+
+// 通过id删除
+export const deleteById = (url:string)=>{
+  return request.delete<IResult>({url})
+}

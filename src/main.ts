@@ -4,6 +4,7 @@ import router from  './router/index'
 import store from './store/index'
 import registerApp from './global'
 import {setupState} from '@/store/index'
+import {ElMessageBox,ElMessage} from 'element-plus'
 import "normalize.css"
 
 

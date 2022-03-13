@@ -9,7 +9,9 @@
       :pageInfo="pageInfo"
     >
       <template #headerHandler>
-        <el-button type="primary" v-if="isCreated">添加用户</el-button>
+        <el-button type="primary" v-if="isCreated" @click="handleCreate"
+          >添加用户</el-button
+        >
       </template>
       <template #enable="scope">
         <el-button
@@ -25,8 +27,18 @@
       </template>
       <template #option="scope">
         <div class="btns">
-          <el-button type="primary" v-if="isUpdated">编辑</el-button>
-          <el-button type="danger" v-if="isDeleted">删除</el-button>
+          <el-button
+            type="primary"
+            v-if="isUpdated"
+            @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="danger"
+            v-if="isDeleted"
+            @click="handleDelete(scope.row.id)"
+            >删除</el-button
+          >
         </div>
       </template>
       <template
@@ -42,11 +54,17 @@
 
 <script lang="ts">
 import CzTable from "@/base-ui/table/Cz-table.vue"
+
 import { formatTime, formatStatus } from "@/utils/filters"
+
 import { ITableConfig } from "@/base-ui/table/type"
+
 import { useRolePermission } from "@/hooks/useRolePermission"
+
 import { defineComponent, computed, PropType, ref, watch } from "vue"
+
 import { useStore } from "vuex"
+
 export default defineComponent({
   components: {
     CzTable,
@@ -61,7 +79,8 @@ export default defineComponent({
       default: "",
     },
   },
-  setup(props) {
+  emits: ["clickEditBtn", "clickCreateBtn"],
+  setup(props, { emit }) {
     const store = useStore()
     let listData = ref<any>()
     let totalCount = ref<any>(0)
@@ -133,6 +152,46 @@ export default defineComponent({
       pageInfo.value.pageSize = newPageSize
     }
 
+    // 点击删除按钮
+    const handleDelete = (id: number) => {
+      ElMessageBox.confirm("你确定要删除吗?", "Warning", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          store.dispatch("systemModule/deleteByIdAction", {
+            pageName: props.pageName,
+            id: id,
+            queryInfo: {
+              offset:
+                (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+              size: pageInfo.value.pageSize,
+            },
+          })
+          ElMessage({
+            type: "success",
+            message: "删除成功",
+          })
+        })
+        .catch(() => {
+          ElMessage({
+            type: "info",
+            message: "删除失败",
+          })
+        })
+    }
+
+    // 点击新增按钮
+    const handleCreate = () => {
+      emit("clickCreateBtn")
+    }
+
+    // 点击编辑按钮
+    const handleEdit = (item: any) => {
+      emit("clickEditBtn", item)
+    }
+
     return {
       listData,
       totalCount,
@@ -146,6 +205,9 @@ export default defineComponent({
       isCreated,
       isDeleted,
       isUpdated,
+      handleDelete,
+      handleEdit,
+      handleCreate,
     }
   },
 })

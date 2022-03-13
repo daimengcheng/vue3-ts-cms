@@ -25,6 +25,7 @@ const searchFormConfig:IForm = {
     },
     { label: "创建时间", type: "datePicker",field:"createAt" },
   ],
-  colLayout:{span:8}
+  colLayout:{span:8},
+  showBtns:true
 }
 export {searchFormConfig}

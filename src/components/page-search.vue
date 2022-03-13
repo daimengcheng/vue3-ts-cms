@@ -1,23 +1,21 @@
 <template>
   <div class="search">
-    <el-card>
-      <CzFromSearch v-bind="searchFormConfig" v-model="formData">
-        <template #title>
-          <div class="title">
-            <h1>高级检索</h1>
-          </div>
-        </template>
-        <template #btns>
-          <div class="btns">
-            <ElButton @click="handleReset">重置</ElButton>
-            <ElButton type="primary" @click="handleSearch">
-              <el-icon style="margin-right: 5px"><search /></el-icon>
-              搜索
-            </ElButton>
-          </div>
-        </template>
-      </CzFromSearch>
-    </el-card>
+    <CzFromSearch v-bind="searchFormConfig" v-model="formData">
+      <template #title>
+        <div class="title">
+          <h1>高级检索</h1>
+        </div>
+      </template>
+      <template #btns v-if="searchFormConfig.showBtns">
+        <div class="btns">
+          <ElButton @click="handleReset">重置</ElButton>
+          <ElButton type="primary" @click="handleSearch">
+            <el-icon style="margin-right: 5px"><search /></el-icon>
+            搜索
+          </ElButton>
+        </div>
+      </template>
+    </CzFromSearch>
   </div>
 </template>
 
@@ -25,7 +23,6 @@
 import { defineComponent, ref, PropType, computed } from "vue"
 import CzFromSearch from "@/base-ui/form/Cz-form.vue"
 import { IFormData, IForm } from "@/base-ui/form/types"
-import { useRolePermission } from "@/hooks/useRolePermission"
 export default defineComponent({
   components: {
     CzFromSearch,

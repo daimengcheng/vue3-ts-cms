@@ -16,10 +16,12 @@ export interface FormItemOptions{
   type:string  , //用于判断输入框的类型,
   rules?:any[], // 校验规则
   selectOptions?:SelectOptions[], //选择框的数据
+  isHidden?:Boolean
 }
 
 export interface IForm{
   labelWidth?: string,
   formItems?:FormItemOptions[]
-  colLayout?:any
+  colLayout?:any,
+  showBtns:Boolean,
 }

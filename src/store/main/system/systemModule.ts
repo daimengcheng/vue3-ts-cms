@@ -1,7 +1,7 @@
 import {Module} from "vuex"
 import rootState from "../../types"
 import {IUserState} from './type'
-import {getUserList} from '@/service/main/system/system'
+import {getUserList,deleteById} from '@/service/main/system/system'
 import {IResult} from '@/service/type'
 import {firstToUpper} from '@/utils/firstToUpper'
 const systemModule:Module<IUserState,rootState> = {
@@ -67,7 +67,17 @@ const systemModule:Module<IUserState,rootState> = {
         commit(`save${newPageName}Count`,res.data.totalCount)
       }
       commit(`save${newPageName}List`,res.data.list)
-    }
+    },
+
+    // 通过id删除
+    async deleteByIdAction({dispatch},payload){
+      const {pageName,id,queryInfo} = payload
+      const url = `${pageName}/${id}`
+      await deleteById(url)
+
+      // 重新获取列表
+      dispatch("systemModule/getListAction",{pageName,queryInfo})
+    } 
   }
 }
 
