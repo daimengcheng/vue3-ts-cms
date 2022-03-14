@@ -27,9 +27,9 @@
                 >
                   <el-option
                     v-for="option in item.selectOptions"
-                    :key="option.label"
-                    :label="option.label"
+                    :key="option.value"
                     :value="option.value"
+                    :label="option.label"
                   >
                   </el-option>
                 </el-select>

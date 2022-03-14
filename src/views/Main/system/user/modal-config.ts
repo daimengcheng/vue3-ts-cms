@@ -7,6 +7,8 @@ const modalConfig:IForm = {
     { label:"真实姓名", type:"input", field:"realname"},
     {label:"电话号码", type:"input", field:"cellphone"},
     {label:"密码",type:"input",field:"password",isHidden:true},
+    {label:"部门",type:"select",field:"departmentId",selectOptions:[]},
+    {label:"角色",type:"select",field:"roleId",selectOptions:[]}
   ],
   colLayout:{span:24},
   showBtns:false,

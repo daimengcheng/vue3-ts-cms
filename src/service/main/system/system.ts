@@ -1,7 +1,7 @@
 import request from '../../index'
 import {IResult} from "../../type"
 // 获取用户列表
-export const getUserList = (url:string,queryInfo:any)=>{
+export const getPageList = (url:string,queryInfo={})=>{
   return request.post<IResult>({url,data:queryInfo})
 }
 

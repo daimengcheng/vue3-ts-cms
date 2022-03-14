@@ -1,10 +1,10 @@
 import {Module} from "vuex"
-import rootState from "../../types"
+import {IRootState} from "../../types"
 import {IUserState} from './type'
-import {getUserList,deleteById} from '@/service/main/system/system'
+import {getPageList,deleteById} from '@/service/main/system/system'
 import {IResult} from '@/service/type'
 import {firstToUpper} from '@/utils/firstToUpper'
-const systemModule:Module<IUserState,rootState> = {
+const systemModule:Module<IUserState,IRootState> = {
   namespaced:true,
   state(){
     return{
@@ -53,14 +53,14 @@ const systemModule:Module<IUserState,rootState> = {
       state.menuCount = menuCount
     }
   },
-
+  getters:{},
   actions:{
     // 获取数据列表
     async getListAction({commit},payload){
       const {queryInfo,pageName} = payload
       // 拼接新的url
       const pageUrl = `${pageName}/list`
-      const res:IResult = await getUserList(pageUrl,queryInfo)
+      const res:IResult = await getPageList(pageUrl,queryInfo)
       // 首字母大写
       const newPageName = firstToUpper(pageName)
       if(res.data.totalCount){

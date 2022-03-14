@@ -91,11 +91,21 @@ export default defineComponent({
       currentPage: 1,
     })
 
+    const isDeleted = ref()
+    const isCreated = ref()
+    const isUpdated = ref()
+    const isQuery = ref()
     // 权限判断
-    const isCreated = useRolePermission(props.pageName, "create")
-    const isDeleted = useRolePermission(props.pageName, "delete")
-    const isUpdated = useRolePermission(props.pageName, "update")
-    const isQuery = useRolePermission(props.pageName, "query")
+    watch(
+      () => props.pageName,
+      () => {
+        isDeleted.value = useRolePermission(props.pageName, "delete")
+        isCreated.value = useRolePermission(props.pageName, "create")
+        isUpdated.value = useRolePermission(props.pageName, "update")
+        isQuery.value = useRolePermission(props.pageName, "query")
+      },
+      { immediate: true }
+    )
 
     // 监听pageInfo,当pageInfo发生改变时,重新发起请求
     watch(pageInfo, () => getDataList(), { deep: true })

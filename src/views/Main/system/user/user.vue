@@ -19,7 +19,7 @@
       <userModal
         :defaultInfo="defaultInfo"
         ref="pageModalRef"
-        :modal-config="modalConfig"
+        :modal-config="newModalConfig"
       />
     </div>
   </div>
@@ -37,7 +37,8 @@ import userModal from "@/components/page-modal.vue"
 import { usePageModal } from "@/hooks/usePageModal"
 import { modalConfig } from "./modal-config"
 
-import { defineComponent, ref } from "vue"
+import { computed, defineComponent, ref } from "vue"
+import { useStore } from "vuex"
 export default defineComponent({
   components: {
     UserSearch,
@@ -45,6 +46,9 @@ export default defineComponent({
     userModal,
   },
   setup() {
+    const store = useStore()
+
+    // 处理不同地方是否要显示密码栏
     const createCallback = () => {
       const passwordItem = modalConfig.formItems?.find(
         item => item.field === "password"
@@ -58,11 +62,41 @@ export default defineComponent({
       )
       passwordItem!.isHidden = true
     }
+
+    store.dispatch("getDepartmentListAction")
+    store.dispatch("getRoleListAction")
+
+    const newModalConfig: any = computed(() => {
+      const roleItem = modalConfig.formItems?.find(
+        (item: any) => item.label === "角色"
+      )
+      const departmentItem = modalConfig.formItems?.find(
+        (item: any) => item.label === "部门"
+      )
+
+      // 动态获取角色,和部门选择的数据
+      store.state.departmentList.map((department: any) => {
+        departmentItem!.selectOptions!.push({
+          label: department.name,
+          value: department.id,
+        })
+      })
+      store.state.roleList.map((role: any) => {
+        roleItem!.selectOptions!.push({
+          label: role.name,
+          value: role.id,
+        })
+      })
+      console.log(roleItem!.selectOptions!)
+      return modalConfig
+    })
+
     const { pageTableRef, handleResetChange, handleSearchChange } =
       usePageSearch()
 
     const { pageModalRef, defaultInfo, handleCreate, handleEdit } =
       usePageModal(createCallback, editCallback)
+
     return {
       searchFormConfig,
       userTableConfig,
@@ -72,7 +106,7 @@ export default defineComponent({
       pageModalRef,
       handleCreate,
       handleEdit,
-      modalConfig,
+      newModalConfig,
       defaultInfo,
     }
   },

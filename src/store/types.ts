@@ -1,7 +1,16 @@
 import loginState from './login/types'
 import {IUserState} from './main/system/type'
+
+interface IRootState {
+  departmentList:any[],
+  roleList:any[]
+}
+
+
 interface rootState{
   loginModule:loginState,
-  systemModule:IUserState
+  systemModule:IUserState,
 }
-export default rootState
+
+type IStore = IRootState & rootState
+export {IRootState,IStore,rootState}

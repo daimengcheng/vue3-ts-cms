@@ -9,7 +9,7 @@ function useRolePermission(pageName:string,permissionName:string){
 
   const handlePermission = `system:${pageName}:${permissionName}`
 
-  return !!menuPermissions.find((permission)=>permission===handlePermission);
+  return !!menuPermissions.find((permission:any)=>permission===handlePermission);
 }
 
 export {useRolePermission}
