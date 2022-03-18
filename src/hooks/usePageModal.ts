@@ -1,6 +1,7 @@
-import { ref } from 'vue'
+import {  ref } from 'vue'
 import PageModal from '@/components/page-modal.vue'
-function usePageModal(newCallback:any,editCallback:any){
+import store from '@/store'
+function usePageModal(newCallback?:any,editCallback?:any){
 
   const defaultInfo = ref({})
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
@@ -9,18 +10,21 @@ function usePageModal(newCallback:any,editCallback:any){
 
     //  清空上一次的数据
     pageModalRef.value.formData = {} 
-
+    defaultInfo.value = {}
     pageModalRef.value.DialogVisible = true
     newCallback && newCallback()
   }
 
   // 处理编辑按钮的函数
   const handleEdit = (item:any)=>{
-
+    // 发起请求
+    store.dispatch('getCurrentMenuListByIdAction',{roleId:item.roleId})
+    delete item.password
     defaultInfo.value = {...item} 
-    console.log(defaultInfo.value);
     pageModalRef.value.DialogVisible = true
-    editCallback && editCallback()
+
+    editCallback && editCallback(item)
+
   }
 
   return {pageModalRef,handleCreate,handleEdit,defaultInfo}

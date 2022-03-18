@@ -2,13 +2,15 @@ import {createStore} from  'vuex'
 import loginModule from './login/loginModule'
 import systemModule from './main/system/systemModule'
 import {IRootState,rootState,IStore} from './types'
-import {getPageList} from '@/service/main/system/system'
+import {getPageList,getCurrentMenuListById} from '@/service/main/system/system'
 import { IResult } from '@/service/type'
 const store = createStore<IStore>({
   state(){
     return {
       departmentList:[],
-      roleList:[]
+      roleList:[],
+      menuList:[],
+      currentMenuList:[]
     }
   },
   mutations:{
@@ -18,6 +20,12 @@ const store = createStore<IStore>({
     },
     saveRoleList(state,roleList){
       state.roleList = roleList
+    },
+    saveMenuList(state,menuList){
+      state.menuList = menuList
+    },
+    saveCurrentMenuList(state,currentMenuList){
+      state.currentMenuList = currentMenuList
     }
   },
   actions:{
@@ -31,6 +39,20 @@ const store = createStore<IStore>({
     async getRoleListAction({commit}){
       const res:IResult = await getPageList("role/list")
       commit("saveRoleList",res.data.list)
+    },
+    // 获取完整的菜单列表
+    async getMenuListAction({commit}){
+      const res = await getPageList("menu/list")
+      commit("saveMenuList",res.data.list)
+    },
+
+    // 通过角色id获取该角色对应的菜单树
+    async getCurrentMenuListByIdAction({commit},payload){
+      const {roleId} = payload
+      const url = `role/${roleId}/menu`
+      console.log(url);
+      const res:IResult = await getCurrentMenuListById(url)
+      commit("saveCurrentMenuList",res.data)
     }
   },
 

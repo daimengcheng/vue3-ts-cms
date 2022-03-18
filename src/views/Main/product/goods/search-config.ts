@@ -26,5 +26,6 @@ export const goodsSearchConfig:IForm = {
     {
       label:"创建时间",type:"dataPicker",field:"createAt"
     }
-  ]
+  ],
+  showBtns:true
 }

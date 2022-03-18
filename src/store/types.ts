@@ -3,7 +3,9 @@ import {IUserState} from './main/system/type'
 
 interface IRootState {
   departmentList:any[],
-  roleList:any[]
+  roleList:any[],
+  menuList:any[],
+  currentMenuList:[]
 }
 
 

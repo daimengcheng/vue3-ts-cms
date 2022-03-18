@@ -16,11 +16,13 @@
       />
     </el-card>
     <div class="modal">
-      <userModal
+      <UserModal
         :defaultInfo="defaultInfo"
         ref="pageModalRef"
         :modal-config="newModalConfig"
-      />
+        page-name="users"
+      >
+      </UserModal>
     </div>
   </div>
 </template>
@@ -32,9 +34,8 @@ import { userTableConfig } from "./table-config"
 import UserSearch from "@/components/page-search.vue"
 import { searchFormConfig } from "./search-config"
 import { usePageSearch } from "@/hooks/usePageSearch"
-
-import userModal from "@/components/page-modal.vue"
 import { usePageModal } from "@/hooks/usePageModal"
+import UserModal from "@/components/page-modal.vue"
 import { modalConfig } from "./modal-config"
 
 import { computed, defineComponent, ref } from "vue"
@@ -43,7 +44,7 @@ export default defineComponent({
   components: {
     UserSearch,
     UserTable,
-    userModal,
+    UserModal,
   },
   setup() {
     const store = useStore()
@@ -66,6 +67,7 @@ export default defineComponent({
     store.dispatch("getDepartmentListAction")
     store.dispatch("getRoleListAction")
 
+    // 动态获取角色,和部门选择的数据  实时
     const newModalConfig: any = computed(() => {
       const roleItem = modalConfig.formItems?.find(
         (item: any) => item.label === "角色"
@@ -87,27 +89,25 @@ export default defineComponent({
           value: role.id,
         })
       })
-      console.log(roleItem!.selectOptions!)
+
       return modalConfig
     })
 
     const { pageTableRef, handleResetChange, handleSearchChange } =
       usePageSearch()
-
     const { pageModalRef, defaultInfo, handleCreate, handleEdit } =
       usePageModal(createCallback, editCallback)
-
     return {
       searchFormConfig,
       userTableConfig,
       pageTableRef,
       handleResetChange,
       handleSearchChange,
+      newModalConfig,
       pageModalRef,
+      defaultInfo,
       handleCreate,
       handleEdit,
-      newModalConfig,
-      defaultInfo,
     }
   },
 })

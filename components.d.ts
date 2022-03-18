@@ -47,6 +47,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTree: typeof import('element-plus/es')['ElTree']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Menu: typeof import('./src/components/menu.vue')['default']
     NavHeader: typeof import('./src/components/nav-header.vue')['default']

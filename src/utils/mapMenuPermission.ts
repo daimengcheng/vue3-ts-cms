@@ -17,4 +17,20 @@ function mapMenuPermission(menuList:any){
   return permissions
 }
 
-export {mapMenuPermission}
+function mapMenuToLeafId(menuList:any){
+
+  const leafId:number[] = []
+  const _recursionGetLeafId = (menuList:any)=>{
+    menuList.map((menu:any)=>{
+      if(menu.children){
+        _recursionGetLeafId(menu.children)
+      }else{
+        leafId.push(menu.id)
+      }
+    })
+  }
+  _recursionGetLeafId(menuList)
+  return leafId
+}
+
+export {mapMenuPermission,mapMenuToLeafId}

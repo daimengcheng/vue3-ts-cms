@@ -9,9 +9,9 @@
       :pageInfo="pageInfo"
     >
       <template #headerHandler>
-        <el-button type="primary" v-if="isCreated" @click="handleCreate"
-          >添加用户</el-button
-        >
+        <el-button type="primary" v-if="isCreated" @click="handleCreate">{{
+          btnName
+        }}</el-button>
       </template>
       <template #enable="scope">
         <el-button
@@ -77,6 +77,10 @@ export default defineComponent({
     pageName: {
       type: String,
       default: "",
+    },
+    btnName: {
+      type: String,
+      default: "添加用户",
     },
   },
   emits: ["clickEditBtn", "clickCreateBtn"],

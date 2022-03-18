@@ -1,7 +1,7 @@
 import {Module} from "vuex"
 import {IRootState} from "../../types"
 import {IUserState} from './type'
-import {getPageList,deleteById} from '@/service/main/system/system'
+import {getPageList,deleteById,createNew,editUserByID} from '@/service/main/system/system'
 import {IResult} from '@/service/type'
 import {firstToUpper} from '@/utils/firstToUpper'
 const systemModule:Module<IUserState,IRootState> = {
@@ -60,7 +60,7 @@ const systemModule:Module<IUserState,IRootState> = {
       const {queryInfo,pageName} = payload
       // 拼接新的url
       const pageUrl = `${pageName}/list`
-      const res:IResult = await getPageList(pageUrl,queryInfo)
+      const res:IResult = await getPageList(pageUrl,queryInfo?queryInfo:{})
       // 首字母大写
       const newPageName = firstToUpper(pageName)
       if(res.data.totalCount){
@@ -76,8 +76,27 @@ const systemModule:Module<IUserState,IRootState> = {
       await deleteById(url)
 
       // 重新获取列表
-      dispatch("systemModule/getListAction",{pageName,queryInfo})
-    } 
+      dispatch("getListAction",{pageName,queryInfo})
+    },
+
+    // 新建用户
+    async createNewAction(context,payload){
+      const {pageName,queryInfo} = payload
+      const url = `${pageName}`
+      const res:IResult = await createNew(url,queryInfo)
+      if(res.code === 0){
+        // 请求成功, 重新获取列表数据
+        context.dispatch("getListAction",{pageName})
+      }
+    },
+    
+    // 编辑用户
+    async editAction(context,payload){
+      const {pageName,queryInfo,id} = payload
+      const url = `${pageName}/${id}`
+      const res:IResult = await editUserByID(url,queryInfo)
+      console.log(res);
+    }
   }
 }
 

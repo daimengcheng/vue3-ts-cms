@@ -18,6 +18,7 @@ const roleSearchConfig:IForm = {
       type:"datePicker",
     }, 
   ],
-  colLayout:{span:8}
+  colLayout:{span:8},
+  showBtns:true
 }
 export {roleSearchConfig}
