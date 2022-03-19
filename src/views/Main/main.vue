@@ -70,7 +70,7 @@ export default defineComponent({
       width: 100%;
     }
     .el-main {
-      background-color: #ccc;
+      background-color: #e7eaee;
     }
   }
 }

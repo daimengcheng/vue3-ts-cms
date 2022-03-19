@@ -24,3 +24,33 @@ export const editUserByID = (url:string,newData:any)=>{
 export const getCurrentMenuListById = (url:string)=>{
   return request.get<IResult>({url})
 }
+
+// 查询每个分类商品的数量
+export const getCategoryGoodsCount =(url:string)=>{
+  return request.get<IResult>({url})
+}
+
+ // 查询每个分类商品的销量
+export const getCategoryGoodsSale =(url:string)=>{
+  return request.get<IResult>({url})
+}
+
+ // 查询每个分类商品的收藏量
+ export const getCategoryGoodsFavor=(url:string)=>{
+  return request.get<IResult>({url})
+}
+
+// 查询不同城市的销量数据
+export const getCitySaleCount=(url:string)=>{
+  return request.get<IResult>({url})
+}
+
+// 商品数据统计数量 的数量
+export const getGoodsAmountList = (url:string)=>{
+  return request.get<IResult>({url})
+}
+
+// 查询销量前十的商品数量
+export const getGoodsCountTop = (url:string)=>{
+  return request.get<IResult>({url})
+}

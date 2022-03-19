@@ -1,6 +1,7 @@
 import {createStore} from  'vuex'
 import loginModule from './login/loginModule'
 import systemModule from './main/system/systemModule'
+import analysisModule from './main/analysis/analysisModule'
 import {IRootState,rootState,IStore} from './types'
 import {getPageList,getCurrentMenuListById} from '@/service/main/system/system'
 import { IResult } from '@/service/type'
@@ -58,7 +59,8 @@ const store = createStore<IStore>({
 
   modules:{
     loginModule,
-    systemModule
+    systemModule,
+    analysisModule
   },
   
 

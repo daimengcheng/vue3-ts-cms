@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BarChart: typeof import('./src/components/echarts/bar-chart.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -47,15 +48,22 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    LineChart: typeof import('./src/components/echarts/line-chart.vue')['default']
+    MapChart: typeof import('./src/components/echarts/map-chart.vue')['default']
     Menu: typeof import('./src/components/menu.vue')['default']
     NavHeader: typeof import('./src/components/nav-header.vue')['default']
     NavMenu: typeof import('./src/components/nav-menu.vue')['default']
     PageModal: typeof import('./src/components/page-modal.vue')['default']
     PageSearch: typeof import('./src/components/page-search.vue')['default']
     PageTable: typeof import('./src/components/page-table.vue')['default']
+    PieChart: typeof import('./src/components/echarts/pie-chart.vue')['default']
+    PieEchart: typeof import('./src/components/echarts/pie-echart.vue')['default']
+    RoseChart: typeof import('./src/components/echarts/rose-chart.vue')['default']
     Search: typeof import('./src/components/search.vue')['default']
+    StaticPanel: typeof import('./src/components/static-panel.vue')['default']
     UserTable: typeof import('./src/components/user-table.vue')['default']
   }
 }
