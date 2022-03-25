@@ -5,7 +5,7 @@ import store from '@/store'
 
 function useRolePermission(pageName:string,permissionName:string){
   // 该角色所有的权限 
-  const menuPermissions = store.state.loginModule.menuPermissions
+  const menuPermissions = store.state.loginModule!.menuPermissions
 
   const handlePermission = `system:${pageName}:${permissionName}`
 

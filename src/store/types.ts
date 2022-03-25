@@ -5,11 +5,13 @@ interface IRootState {
   departmentList:any[],
   roleList:any[],
   menuList:any[],
-  currentMenuList:[]
+  currentMenuList:[],
+  loginModule?:loginState,
+  systemModule?:IUserState,
 }
 
 
-interface rootState{
+interface rootState extends IRootState{
   loginModule:loginState,
   systemModule:IUserState,
 }

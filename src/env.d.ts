@@ -8,3 +8,5 @@ declare module '*.vue' {
 }
 
 declare let $store: any
+declare let ElMessage
+declare let ElMessageBox

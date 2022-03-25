@@ -9,9 +9,13 @@ function usePageModal(newCallback?:any,editCallback?:any){
   const handleCreate = ()=>{
 
     //  清空上一次的数据
-    pageModalRef.value.formData = {} 
+    if(pageModalRef.value){
+      pageModalRef.value!.formData = {} 
+    }
     defaultInfo.value = {}
-    pageModalRef.value.DialogVisible = true
+    if(pageModalRef.value){
+      pageModalRef.value!.DialogVisible = true
+    }
     newCallback && newCallback()
   }
 
@@ -21,7 +25,9 @@ function usePageModal(newCallback?:any,editCallback?:any){
     store.dispatch('getCurrentMenuListByIdAction',{roleId:item.roleId})
     delete item.password
     defaultInfo.value = {...item} 
-    pageModalRef.value.DialogVisible = true
+    if(pageModalRef.value){
+      pageModalRef.value.DialogVisible = true
+    }
 
     editCallback && editCallback(item)
 

@@ -28,7 +28,7 @@ export default defineComponent({
   setup() {
     // 是否水平折叠菜单
     const isCollapse = ref<boolean>(false)
-    const handleFold = value => {
+    const handleFold = (value: any) => {
       isCollapse.value = value
     }
     return {

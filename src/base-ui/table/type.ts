@@ -10,7 +10,7 @@ interface ITableConfig {
   propsItem:IPropsItem[],
   title:string,
   childrenProps?:{},
-  hidePagination:boolean
+  hidePagination?:boolean
 }
 
 export {ITableConfig,IPropsItem}

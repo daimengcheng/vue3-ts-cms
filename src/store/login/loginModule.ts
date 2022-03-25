@@ -1,13 +1,13 @@
 import { Module } from "vuex";
 import ILoginState from './types'
-import rootState from '../types'
+import {IRootState} from '../types'
 import {reqAccountLogin,reqUserInfoById,reqMenuByUserId} from '@/service/login/login'
 import {AccountLoginType} from '@/service/login/types'
 import {getRoute} from '@/utils/map-route-menu'
 import {mapMenuPermission} from '@/utils/mapMenuPermission'
 import localCache from '@/utils/cache'
 import router from '@/router/index'
-const loginModule:Module<ILoginState,rootState> = {
+const loginModule:Module<ILoginState,IRootState> = {
   namespaced:true,
   state:{
     token:"",

@@ -8,12 +8,16 @@ const usePageSearch = ()=>{
 
   // 处理点击重置按钮的函数
   const handleResetChange = ()=>{
-    pageTableRef.value.getDataList()
+    if(pageTableRef.value){
+      pageTableRef.value!.getDataList()
+    }
   }
 
   // 处理点击搜索按钮的函数
   const handleSearchChange = (value:any)=>{
-    pageTableRef.value.getDataList(value)
+    if(pageTableRef.value){
+      pageTableRef.value!.getDataList(value)
+    }
   }
 
   return {pageTableRef,handleResetChange,handleSearchChange}
